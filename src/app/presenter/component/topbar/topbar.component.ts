@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../infra/auth/auth.service';
+import { AuthService } from '@infra/auth/auth.service';
 
 @Component({
   selector: 'app-topbar',

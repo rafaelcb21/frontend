@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SidebarComponent } from '../sidebar/sidebar.component';
-import { TopbarComponent } from '../topbar/topbar.component';
+import { SidebarComponent } from '@component/sidebar/sidebar.component';
+import { TopbarComponent } from '@component/topbar/topbar.component';
 
 @Component({
   selector: 'app-shell',
