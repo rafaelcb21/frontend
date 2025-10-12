@@ -1,0 +1,107 @@
+.sidebar
+  width: 70px
+  height: 100vh
+  background-color: var(--sidebar-bg)
+  color: var(--sidebar-text)
+  transition: width 0.3s ease
+  overflow-x: hidden
+  position: fixed
+  left: 0
+  top: 0
+  z-index: 101
+  display: block
+  
+.sidebar.expanded
+  width: 250px
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+  
+.logo-container
+  padding: 0
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  height: 64px
+  border-bottom: 1px solid var(--border-color)
+  
+.dashboard-link
+  display: flex
+  align-items: center
+  padding: 0.75rem 1rem
+  color: var(--sidebar-text)
+  text-decoration: none
+  transition: background-color 0.2s
+  border-radius: 4px
+  margin: 0 0.5rem
+  cursor: pointer
+  width: 100%
+  
+  span
+    font-size: 1.2rem
+    font-weight: bold
+    white-space: nowrap
+    margin-left: 1rem
+  
+.menu
+  padding: 1rem 0
+  
+.menu ul
+  list-style: none
+  padding: 0
+  margin: 0
+  
+.menu li
+  margin-bottom: 0.5rem
+  
+.menu a
+  display: flex
+  align-items: center
+  padding: 0.75rem 1rem
+  color: var(--sidebar-text)
+  text-decoration: none
+  transition: background-color 0.2s
+  border-radius: 4px
+  margin: 0 0.5rem
+  
+.menu a.active
+  background-color: rgba(255, 255, 255, 0.1)
+  
+.menu a:not(.active)
+  background-color: transparent
+  
+.menu a:hover
+  background-color: var(--sidebar-hover)
+  
+.menu svg
+  min-width: 24px
+  margin-right: 1rem
+  
+.menu span
+  white-space: nowrap
+
+/* Sidebar já é fixa; o cap precisa ficar DENTRO dela */
+.sidebar
+  // garante um contexto de empilhamento para o ::before e os ícones
+  isolation: isolate
+
+  // CAP do topbar dentro da sidebar (continuação visual)
+  &::before
+    content: ""
+    position: absolute    // <- era fixed (errado); agora relativo à própria sidebar
+    top: 0
+    left: 0
+    right: 0
+    height: 64px          // altura exata do seu topbar
+    background: var(--topbar-bg)  // mesma cor do topbar
+    z-index: 0            // atrás do conteúdo da sidebar
+    pointer-events: none
+
+  // garante que os itens da sidebar fiquem acima do cap
+  > *
+    position: relative
+    z-index: 1
+
+// quando expandir, o ::before já ocupa toda a largura porque usamos left/right
+// mas se preferir explicitar:
+.sidebar.expanded::before
+  width: 100%
+

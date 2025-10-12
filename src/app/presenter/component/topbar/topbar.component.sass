@@ -1,0 +1,49 @@
+.topbar
+  display: flex
+  align-items: center
+  height: 64px
+  padding: 0 1rem
+  background-color: var(--topbar-bg)
+  color: var(--topbar-text)
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+  position: sticky
+  top: 0
+  z-index: 10
+  
+.menu-toggle
+  background: none
+  border: none
+  color: var(--topbar-text)
+  cursor: pointer
+  padding: 0.5rem
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 4px
+  
+  &:hover
+    background-color: var(--topbar-hover)
+  
+.title
+  font-size: 1.2rem
+  font-weight: bold
+  margin-left: 1rem
+  
+.spacer
+  flex: 1
+  
+.logout-btn
+  display: flex
+  align-items: center
+  background: none
+  border: none
+  color: var(--topbar-text)
+  cursor: pointer
+  padding: 0.5rem 1rem
+  border-radius: 4px
+  
+  &:hover
+    background-color: var(--topbar-hover)
+  
+  svg
+    margin-right: 0.5rem

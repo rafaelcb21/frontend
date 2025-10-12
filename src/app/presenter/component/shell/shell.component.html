@@ -1,0 +1,10 @@
+<div class="topcap" aria-hidden="true"></div>
+<app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
+<div class="app-container" [class.sidebar-expanded]="sidebarExpanded()">
+  <app-sidebar [expanded]="sidebarExpanded()"></app-sidebar>
+  <div class="main-content">
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
