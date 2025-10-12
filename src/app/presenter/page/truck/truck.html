@@ -1,6 +1,16 @@
 <div class="truck-container">
-  <h2>{{title}}</h2>
+  <h2>{{ title }}</h2>
   <div class="content-card">
-    <p>Conteúdo da página de Caminhões</p>
+    <app-data-table
+      [data]="trucks"
+      [columnConfig]="columns"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 20]"
+      [rowNavigate]="{ routeTemplate: '/truck/{id}' }"
+      (rowNavigated)="onRowNavigated($event)"
+      (sortChanged)="onSortChanged($event)"
+      (filterChanged)="onFilterChanged($event)"
+      (pageChanged)="onPageChanged($event)">
+    </app-data-table>
   </div>
 </div>

@@ -1,0 +1,89 @@
+<div class="data-table-container">
+  <table class="data-table">
+    <thead>
+      <tr class="header-row">
+        <th *ngFor="let col of columnConfig" 
+            [style.width.px]="col.widthPx"
+            [attr.aria-sort]="sortKey() === col.key ? sortDir() : null">
+          <div class="header-cell">
+            <span>{{ col.label }}</span>
+            <button *ngIf="col.sortable" 
+                    class="sort-button" 
+                    (click)="toggleSort(col.key)"
+                    [attr.aria-label]="'Ordenar por ' + col.label">
+              <span class="sort-icon" [class.active]="sortKey() === col.key">
+                <span class="arrow up" [class.active]="sortKey() === col.key && sortDir() === 'asc'"></span>
+                <span class="arrow down" [class.active]="sortKey() === col.key && sortDir() === 'desc'"></span>
+              </span>
+            </button>
+          </div>
+        </th>
+      </tr>
+      <tr class="filter-row">
+        <th *ngFor="let col of columnConfig">
+          <input *ngIf="col.filterable"
+                 type="text"
+                 class="filter-input"
+                 (input)="applyFilter(col.key, $event.target.value)"
+                 [value]="filters()[col.key] || ''"
+                 [attr.aria-label]="'Filtrar por ' + col.label">
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of pagedData(); trackBy: trackById" 
+          [class.clickable]="!!rowNavigate"
+          (click)="navigateToRow(row)">
+        <td *ngFor="let col of columnConfig"
+            [class.clickable]="!!col.navigate"
+            (click)="$event.stopPropagation(); navigateToCell(row, col.key, col)">
+          <ng-container *ngIf="col.cellTemplate; else defaultCell">
+            <span [innerHTML]="col.cellTemplate(row[col.key], row)"></span>
+          </ng-container>
+          <ng-template #defaultCell>
+            {{ row[col.key] }}
+          </ng-template>
+        </td>
+      </tr>
+      <tr *ngIf="!pagedData().length" class="empty-row">
+        <td [attr.colspan]="columnConfig?.length || 0" class="empty-message">
+          Nenhum dado encontrado
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td [attr.colspan]="columnConfig?.length || 0">
+          <div class="pagination-controls">
+            <div class="pagination-info">
+              <span>Página {{ pageIndex() + 1 }} de {{ totalPages() || 1 }}</span>
+            </div>
+            <div class="pagination-actions">
+              <button class="pagination-button" 
+                      (click)="prevPage()" 
+                      [disabled]="pageIndex() === 0"
+                      aria-label="Página anterior">
+                Anterior
+              </button>
+              <button class="pagination-button" 
+                      (click)="nextPage()" 
+                      [disabled]="pageIndex() >= totalPages() - 1"
+                      aria-label="Próxima página">
+                Próximo
+              </button>
+            </div>
+            <div class="page-size-selector">
+              <label for="pageSize">Itens por página:</label>
+              <select id="pageSize" 
+                      [ngModel]="pageSizeSignal()" 
+                      (ngModelChange)="setPageSize($event)"
+                      aria-label="Selecionar quantidade de itens por página">
+                <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+              </select>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

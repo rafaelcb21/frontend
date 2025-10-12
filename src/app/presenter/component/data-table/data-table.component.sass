@@ -1,0 +1,193 @@
+// Variáveis de tema dark
+:root
+  --bg: #121212
+  --surface-1: #1e1e1e
+  --surface-2: #2c2c2c
+  --border: #444
+  --text: #e0e0e0
+  --muted: #999
+  --primary: #bb86fc
+
+.data-table-container
+  width: 100%
+  overflow-x: auto
+  background-color: var(--surface-1)
+  border-radius: 8px
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+
+.data-table
+  width: 100%
+  border-collapse: collapse
+  color: var(--text)
+  
+  th, td
+    padding: 12px 16px
+    text-align: center
+    border-bottom: 1px solid var(--border)
+  
+  thead
+    position: sticky
+    top: 0
+    z-index: 1
+    background-color: var(--surface-2)
+    
+    .header-row th
+      font-weight: 600
+      
+    .filter-row th
+      padding: 8px 16px
+  
+  tbody
+    tr
+      transition: background-color 0.2s
+      
+      &:hover
+        background-color: rgba(255, 255, 255, 0.05)
+      
+      &.clickable
+        cursor: pointer
+    
+    td.clickable
+      cursor: pointer
+      position: relative
+      
+      &:hover
+        text-decoration: underline
+        color: var(--primary)
+    
+    .empty-message
+      text-align: center
+      padding: 24px
+      color: var(--muted)
+  
+  tfoot
+    background-color: var(--surface-2)
+
+.header-cell
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 6px
+  text-align: center
+
+.sort-button
+  background: none
+  border: none
+  cursor: pointer
+  color: var(--muted)
+  display: flex
+  align-items: center
+  padding: 4px
+  margin-left: 8px
+  
+  &:hover
+    color: var(--primary)
+  
+  &:focus
+    outline: 2px solid var(--primary)
+    border-radius: 4px
+
+.sort-icon
+  position: relative
+  width: 12px
+  height: 16px
+  display: inline-block
+  
+  &.active
+    color: var(--primary)
+  
+  .arrow
+    position: absolute
+    width: 0
+    height: 0
+    border-left: 4px solid transparent
+    border-right: 4px solid transparent
+    
+    &.up
+      top: 0
+      border-bottom: 4px solid currentColor
+      
+      &.active
+        border-bottom-color: var(--primary)
+    
+    &.down
+      bottom: 0
+      border-top: 4px solid currentColor
+      
+      &.active
+        border-top-color: var(--primary)
+
+.filter-input
+  width: 100%
+  padding: 6px 8px
+  background-color: var(--surface-1)
+  border: 1px solid #e0e0e0
+  border-radius: 4px
+  color: var(--text)
+  
+  &:focus
+    outline: none
+    border-color: #e0e0e0
+    box-shadow: 0 0 0 1px #e0e0e0
+  
+  &::placeholder
+    color: var(--muted)
+
+.pagination-controls
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 12px 16px
+  
+  @media (max-width: 768px)
+    flex-direction: column
+    gap: 12px
+    align-items: flex-start
+
+.pagination-info
+  color: var(--muted)
+
+.pagination-actions
+  display: flex
+  gap: 8px
+
+.pagination-button
+  padding: 6px 12px
+  background-color: var(--surface-1)
+  border: 1px solid var(--border)
+  border-radius: 4px
+  color: var(--text)
+  cursor: pointer
+  transition: all 0.2s
+  
+  &:hover:not(:disabled)
+    background-color: var(--primary)
+    color: #000
+  
+  &:disabled
+    opacity: 0.5
+    cursor: not-allowed
+  
+  &:focus
+    outline: none
+    box-shadow: 0 0 0 2px var(--primary)
+
+.page-size-selector
+  display: flex
+  align-items: center
+  gap: 8px
+  
+  label
+    color: var(--muted)
+  
+  select
+    padding: 6px 8px
+    background-color: var(--surface-1)
+    border: 1px solid var(--border)
+    border-radius: 4px
+    color: var(--text)
+    
+    &:focus
+      outline: none
+      border-color: var(--primary)
+      box-shadow: 0 0 0 1px var(--primary)
