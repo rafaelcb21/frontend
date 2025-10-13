@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTableComponent } from '../../component/data-table/data-table.component';
-import { ColumnConfig } from '../../component/data-table/types';
+import { ColumnConfig, RowNavigate } from '../../component/data-table/types';
 
 @Component({
   selector: 'app-truck',
@@ -12,6 +12,12 @@ import { ColumnConfig } from '../../component/data-table/types';
 })
 export class Truck {
   title = 'Trucks';
+
+  // Configuração de navegação ao clicar na linha
+  rowNavigate: RowNavigate = {
+    route: '/dashboard/truck-dashboard',
+    query: (row: any) => ({ id: row.id, name: row.name })
+  };
 
   // Dados de exemplo para os trucks com todas as colunas solicitadas
   trucks = [

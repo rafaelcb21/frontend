@@ -6,7 +6,7 @@
       [columnConfig]="columns"
       [pageSize]="5"
       [pageSizeOptions]="[5, 10, 20]"
-      [rowNavigate]="{ routeTemplate: '/truck/{id}' }"
+      [rowNavigate]="rowNavigate"
       [rowClass]="rowClass"
       (rowNavigated)="onRowNavigated($event)"
       (sortChanged)="onSortChanged($event)"

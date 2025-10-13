@@ -47,7 +47,7 @@
           @for (col of columnConfig; track col.key) {
             <td 
               [class.clickable]="!!col.navigate"
-              (click)="$event.stopPropagation(); navigateToCell(row, col.key, col)">
+              (click)="onCellClick($event, row, col.key, col)">
               @if (col.cellTemplate) {
                 <span [innerHTML]="col.cellTemplate(row[col.key], row)"></span>
               } @else {

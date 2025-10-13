@@ -1,4 +1,55 @@
-<div echarts
-         [options]="option"
-         [theme]="'dark'"
-         class="chart-container"></div>
+<div class="dashboard-container">
+  <h2>{{ title }}</h2>
+  <div class="dashboard-grid">
+    <div class="card">
+      <h3>DTCs</h3>
+      <app-data-table
+        [data]="dtcData"
+        [columnConfig]="dtcColumnConfig"
+        [pageSize]="5"
+        [pageSizeOptions]="[5,10,20]">
+      </app-data-table>
+    </div>
+    <div class="card group-card">
+      <h3>Turbocharger</h3>
+      <div class="charts-row">
+        <div echarts [options]="turboOilLine" [theme]="'dark'" class="chart"></div>
+        <div echarts [options]="intakeAirLine" [theme]="'dark'" class="chart"></div>
+      </div>
+      <div class="gauges-row">
+        <div echarts [options]="boostGauge" [theme]="'dark'" class="gauge"></div>
+        <div echarts [options]="rpmGauge" [theme]="'dark'" class="gauge"></div>
+        <div echarts [options]="oilPressureGauge" [theme]="'dark'" class="gauge"></div>
+      </div>
+    </div>
+
+    <div class="card group-card">
+      <h3>Battery</h3>
+      <div class="charts-row">
+        <div echarts [options]="batteryAmperLine" [theme]="'dark'" class="chart"></div>
+      </div>
+      <div class="gauges-row">
+        <div echarts [options]="batteryVoltageGauge" [theme]="'dark'" class="gauge"></div>
+        <div echarts [options]="batterySocGauge" [theme]="'dark'" class="gauge"></div>
+        <div echarts [options]="batteryTempGauge" [theme]="'dark'" class="gauge"></div>
+        <div echarts [options]="batterySohGauge" [theme]="'dark'" class="gauge"></div>
+      </div>
+    </div>
+
+    <div class="card group-card">
+      <h3>Alternator</h3>
+      <div class="charts-row">
+        <div echarts [options]="alternatorAmperLine" [theme]="'dark'" class="chart"></div>
+      </div>
+      <div class="gauges-row">
+        <div echarts [options]="alternatorVoltageGauge" [theme]="'dark'" class="gauge"></div>
+        <div echarts [options]="alternatorTempGauge" [theme]="'dark'" class="gauge"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Localização</h3>
+      <div id="truckMap" class="map"></div>
+    </div>
+  </div>
+</div>

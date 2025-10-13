@@ -16,6 +16,10 @@ export const routes: Routes = [
         loadComponent: () => import('./presenter/page/home/home').then(m => m.Home)
       },
       {
+        path: 'truck-dashboard',
+        loadComponent: () => import('./presenter/page/dashboard/dashboard').then(m => m.Dashboard)
+      },
+      {
         path: 'user',
         loadComponent: () => import('./presenter/page/user/user').then(m => m.User)
       },

@@ -211,6 +211,15 @@ export class DataTableComponent {
     }
   }
   
+  // Click handler for table cells: only stop propagation when cell has its own navigation
+  onCellClick(event: MouseEvent, row: any, key: string, config?: ColumnConfig) {
+    if (config?.navigate) {
+      event.stopPropagation();
+      this.navigateToCell(row, key, config);
+    }
+    // If no navigate config, allow event to bubble to row click
+  }
+  
   private buildRoute(
     navConfig: RowNavigate | ColumnConfig['navigate'], 
     row: any
