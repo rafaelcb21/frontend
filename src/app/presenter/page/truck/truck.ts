@@ -18,6 +18,10 @@ export class Truck {
     {
       id: 1,
       name: 'Vehicle A',
+      predictTurbocharger: 0,
+      predictBattery: 0,
+      predictAlternator: 1,
+      dtc: 'P0440',
       faultStatus: 'OK',
       kmh: 83,
       motorRpm: 1200,
@@ -35,6 +39,10 @@ export class Truck {
     {
       id: 2,
       name: 'Vehicle B',
+      predictTurbocharger: 1,
+      predictBattery: 1,
+      predictAlternator: 1,
+      dtc: 'P0406',
       faultStatus: 'Warning',
       kmh: 65,
       motorRpm: 1100,
@@ -52,6 +60,10 @@ export class Truck {
     {
       id: 3,
       name: 'Vehicle C',
+      predictTurbocharger: 1,
+      predictBattery: 0,
+      predictAlternator: 0,
+      dtc: 'P0717',
       faultStatus: 'OK',
       kmh: 87,
       motorRpm: 1300,
@@ -69,6 +81,10 @@ export class Truck {
     {
       id: 4,
       name: 'Vehicle D',
+      predictTurbocharger: 0,
+      predictBattery: 1,
+      predictAlternator: 0,
+      dtc: 'U0001',
       faultStatus: 'Critical',
       kmh: 0,
       motorRpm: 0,
@@ -86,6 +102,10 @@ export class Truck {
     {
       id: 5,
       name: 'Vehicle E',
+      predictTurbocharger: 1,
+      predictBattery: 0,
+      predictAlternator: 0,
+      dtc: 'P0601',
       faultStatus: 'OK',
       kmh: 109,
       motorRpm: 1500,
@@ -103,6 +123,10 @@ export class Truck {
     {
       id: 6,
       name: 'Vehicle F',
+      predictTurbocharger: 0,
+      predictBattery: 0,
+      predictAlternator: 0,
+      dtc: 'P0440',
       faultStatus: 'OK',
       kmh: 4,
       motorRpm: 800,
@@ -120,6 +144,10 @@ export class Truck {
     {
       id: 7,
       name: 'Vehicle G',
+      predictTurbocharger: 1,
+      predictBattery: 0,
+      predictAlternator: 0,
+      dtc: 'P0717',
       faultStatus: 'Warning',
       kmh: 111,
       motorRpm: 1600,
@@ -137,6 +165,10 @@ export class Truck {
     {
       id: 8,
       name: 'Vehicle H',
+      predictTurbocharger: 0,
+      predictBattery: 0,
+      predictAlternator: 0,
+      dtc: 'P0406',
       faultStatus: 'OK',
       kmh: 6,
       motorRpm: 850,
@@ -157,6 +189,10 @@ export class Truck {
   columns: ColumnConfig[] = [
     { key: 'id', label: 'ID', sortable: true, filterable: true, widthPx: 80 },
     { key: 'name', label: 'Name', sortable: true, filterable: true, widthPx: 120 },
+    { key: 'predictTurbocharger', label: 'Predict TurboCharger', sortable: true, filterable: true, widthPx: 140 },
+    { key: 'predictBattery', label: 'Predict Battery', sortable: true, filterable: true, widthPx: 120 },
+    { key: 'predictAlternator', label: 'Predict Alternator', sortable: true, filterable: true, widthPx: 140 },
+    { key: 'dtc', label: 'DTC', sortable: true, filterable: true, widthPx: 100 },
     { key: 'faultStatus', label: 'Fault Status', sortable: true, filterable: true, widthPx: 120 },
     { key: 'kmh', label: 'Km/h', sortable: true, filterable: true, widthPx: 80 },
     { key: 'motorRpm', label: 'Motor RPM', sortable: true, filterable: true, widthPx: 100 },
@@ -177,6 +213,11 @@ export class Truck {
     console.log('Truck row clicked:', row);
     console.log(`Navegando para detalhes do truck ID: ${row.id}, Nome: ${row.name}`);
   }
+
+  // Classe condicional para destacar linhas com problemas de Predict
+  rowClass = (row: any) => ({
+    'alert-row': row.predictTurbocharger === 1 || row.predictBattery === 1 || row.predictAlternator === 1
+  });
 
   // Métodos para outros eventos da tabela
   onSortChanged(event: {key: string, dir: string}) {

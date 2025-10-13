@@ -34,6 +34,7 @@ export class DataTableComponent {
   @Input() pageSizeOptions = [10, 20, 50];
   @Input() rowNavigate?: RowNavigate;
   @Input() keyField = 'id';
+  @Input() rowClass?: (row: any) => string | Record<string, boolean>;
 
   @Output() sortChanged = new EventEmitter<{key: string; dir: SortDir}>();
   @Output() filterChanged = new EventEmitter<Record<string, string>>();

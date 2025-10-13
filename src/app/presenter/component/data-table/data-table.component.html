@@ -2,54 +2,68 @@
   <table class="data-table">
     <thead>
       <tr class="header-row">
-        <th *ngFor="let col of columnConfig" 
+        @for (col of columnConfig; track col.key) {
+          <th 
             [style.width.px]="col.widthPx"
             [attr.aria-sort]="sortKey() === col.key ? sortDir() : null">
-          <div class="header-cell">
-            <span>{{ col.label }}</span>
-            <button *ngIf="col.sortable" 
-                    class="sort-button" 
-                    (click)="toggleSort(col.key)"
-                    [attr.aria-label]="'Ordenar por ' + col.label">
-              <span class="sort-icon" [class.active]="sortKey() === col.key">
-                <span class="arrow up" [class.active]="sortKey() === col.key && sortDir() === 'asc'"></span>
-                <span class="arrow down" [class.active]="sortKey() === col.key && sortDir() === 'desc'"></span>
-              </span>
-            </button>
-          </div>
-        </th>
+            <div class="header-cell">
+              <span>{{ col.label }}</span>
+              @if (col.sortable) {
+                <button 
+                  class="sort-button" 
+                  (click)="toggleSort(col.key)"
+                  [attr.aria-label]="'Ordenar por ' + col.label">
+                  <span class="sort-icon" [class.active]="sortKey() === col.key">
+                    <span class="arrow up" [class.active]="sortKey() === col.key && sortDir() === 'asc'"></span>
+                    <span class="arrow down" [class.active]="sortKey() === col.key && sortDir() === 'desc'"></span>
+                  </span>
+                </button>
+              }
+            </div>
+          </th>
+        }
       </tr>
       <tr class="filter-row">
-        <th *ngFor="let col of columnConfig">
-          <input *ngIf="col.filterable"
-                 type="text"
-                 class="filter-input"
-                 (input)="applyFilter(col.key, $event.target.value)"
-                 [value]="filters()[col.key] || ''"
-                 [attr.aria-label]="'Filtrar por ' + col.label">
-        </th>
+        @for (col of columnConfig; track col.key) {
+          <th>
+            @if (col.filterable) {
+              <input 
+                type="text"
+                class="filter-input"
+                (input)="applyFilter(col.key, $event.target.value)"
+                [value]="filters()[col.key] || ''"
+                [attr.aria-label]="'Filtrar por ' + col.label">
+            }
+          </th>
+        }
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of pagedData(); trackBy: trackById" 
+      @for (row of pagedData(); track row.id) {
+        <tr 
           [class.clickable]="!!rowNavigate"
+          [ngClass]="rowClass ? rowClass(row) : null"
           (click)="navigateToRow(row)">
-        <td *ngFor="let col of columnConfig"
-            [class.clickable]="!!col.navigate"
-            (click)="$event.stopPropagation(); navigateToCell(row, col.key, col)">
-          <ng-container *ngIf="col.cellTemplate; else defaultCell">
-            <span [innerHTML]="col.cellTemplate(row[col.key], row)"></span>
-          </ng-container>
-          <ng-template #defaultCell>
-            {{ row[col.key] }}
-          </ng-template>
-        </td>
-      </tr>
-      <tr *ngIf="!pagedData().length" class="empty-row">
-        <td [attr.colspan]="columnConfig?.length || 0" class="empty-message">
-          Nenhum dado encontrado
-        </td>
-      </tr>
+          @for (col of columnConfig; track col.key) {
+            <td 
+              [class.clickable]="!!col.navigate"
+              (click)="$event.stopPropagation(); navigateToCell(row, col.key, col)">
+              @if (col.cellTemplate) {
+                <span [innerHTML]="col.cellTemplate(row[col.key], row)"></span>
+              } @else {
+                {{ row[col.key] }}
+              }
+            </td>
+          }
+        </tr>
+      }
+      @if (!pagedData().length) {
+        <tr class="empty-row">
+          <td [attr.colspan]="columnConfig?.length || 0" class="empty-message">
+            Nenhum dado encontrado
+          </td>
+        </tr>
+      }
     </tbody>
     <tfoot>
       <tr>
@@ -78,7 +92,9 @@
                       [ngModel]="pageSizeSignal()" 
                       (ngModelChange)="setPageSize($event)"
                       aria-label="Selecionar quantidade de itens por página">
-                <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                @for (size of pageSizeOptions; track size) {
+                  <option [value]="size">{{ size }}</option>
+                }
               </select>
             </div>
           </div>
