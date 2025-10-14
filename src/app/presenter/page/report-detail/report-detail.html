@@ -1,0 +1,43 @@
+<div class="report-detail-container">
+  <div class="header">
+    <div class="icon">📄</div>
+    <div>
+      <h2>{{ titleFails }}</h2>
+      <div class="meta">
+        <div>ID: {{ id }}</div>
+        <div>Name: {{ name }}</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <button class="back-button" (click)="voltar()">Voltar</button>
+  </div>
+
+  <div class="card">
+    <app-data-table
+      [data]="failsData"
+      [columnConfig]="failsColumns"
+      [pageSize]="10"
+      [pageSizeOptions]="[10,20,50]">
+    </app-data-table>
+  </div>
+
+  <div class="header second">
+    <div class="icon">📄</div>
+    <div>
+      <h2>{{ titleDtcs }}</h2>
+      <div class="meta">
+        <div>ID: {{ id }}</div>
+        <div>Name: {{ name }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <app-data-table
+      [data]="dtcData"
+      [columnConfig]="dtcColumns"
+      [pageSize]="10"
+      [pageSizeOptions]="[10,20,50]">
+    </app-data-table>
+  </div>
+</div>

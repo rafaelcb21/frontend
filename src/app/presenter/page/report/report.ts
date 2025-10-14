@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataTableComponent } from '../../component/data-table/data-table.component';
-import { ColumnConfig } from '../../component/data-table/types';
+import { ColumnConfig, RowNavigate } from '../../component/data-table/types';
 
 @Component({
   selector: 'app-report',
@@ -12,7 +12,7 @@ import { ColumnConfig } from '../../component/data-table/types';
   styleUrls: ['./report.sass']
 })
 export class Report {
-  title = 'Report';
+  title = 'Relatórios';
 
   // Filtro de data
   startDateFilter = ''; // formato yyyy-MM-dd vindo do input type="date"
@@ -27,6 +27,13 @@ export class Report {
     { key: 'startDate', label: 'START DATE', sortable: true, filterable: true, widthPx: 160, cellTemplate: (v: string) => this.formatDateBR(v) },
     { key: 'endDate', label: 'END DATE', sortable: true, filterable: true, widthPx: 160, cellTemplate: (v: string) => this.formatDateBR(v) }
   ];
+
+  // Navegação ao clicar na linha para página de detalhe
+  rowNavigate: RowNavigate = {
+    route: '/dashboard/report/:id',
+    params: (row: any) => ({ id: row.id }),
+    query: (row: any) => ({ name: row.name })
+  };
 
   // Dados de exemplo
   rows = [

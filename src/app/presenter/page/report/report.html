@@ -10,14 +10,15 @@
         <label for="endDate">End Date</label>
         <input id="endDate" type="date" [(ngModel)]="endDateFilter" />
       </div>
-      <button class="search-button" (click)="buscarPorData()">Search</button>
-      <button class="reset-button" (click)="resetarFiltros(dt)">Reset</button>
+      <button class="search-button" (click)="buscarPorData()">Buscar</button>
+      <button class="reset-button" (click)="resetarFiltros(dt)">Resetar</button>
     </div>
 
     <app-data-table
       #dt
       [data]="filteredRows"
       [columnConfig]="columns"
+      [rowNavigate]="rowNavigate"
       [pageSize]="10"
       [pageSizeOptions]="[10,20,50]">
     </app-data-table>
