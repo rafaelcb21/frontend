@@ -13,19 +13,21 @@ import { ColumnConfig, RowNavigate, SortDir } from './types';
 })
 export class DataTableComponent {
   @Input() set data(value: any[]) {
-    if (value?.length) {
-      // Initialize dataMap with the input data
-      const map = new Map<any, any>();
+    // Sempre atualiza o dataMap, mesmo quando o array está vazio
+    const map = new Map<any, any>();
+    if (Array.isArray(value)) {
       for (const row of value) {
         const id = row[this.keyField] || row.id;
         map.set(id, row);
       }
-      this.dataMap.set(map);
-      
-      // Auto-detect columns if not provided
-      if (!this.columnConfig?.length && value.length > 0) {
-        this.autoDetectColumns(value[0]);
-      }
+    }
+    this.dataMap.set(map);
+    // Ao trocar os dados, volta para a primeira página
+    this.pageIndex.set(0);
+    
+    // Detecta colunas automaticamente apenas quando houver dados
+    if (!this.columnConfig?.length && Array.isArray(value) && value.length > 0) {
+      this.autoDetectColumns(value[0]);
     }
   }
   
@@ -160,6 +162,16 @@ export class DataTableComponent {
     this.filters.set(currentFilters);
     this.pageIndex.set(0); // Reset to first page
     this.filterChanged.emit(currentFilters);
+  }
+
+  // Limpa todos os filtros, ordenação e reseta a paginação
+  clearAllFilters() {
+    this.filters.set({});
+    this.sortKey.set('');
+    this.sortDir.set('none');
+    this.pageIndex.set(0);
+    this.filterChanged.emit({});
+    this.sortChanged.emit({ key: '', dir: 'none' });
   }
   
   // Pagination methods

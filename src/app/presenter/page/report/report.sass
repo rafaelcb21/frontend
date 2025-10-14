@@ -10,3 +10,62 @@ h2
   border-radius: 8px
   padding: 1.5rem
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+
+// Barra de filtros
+.filter-bar
+  display: flex
+  align-items: flex-end // alinhar com a base dos inputs
+  gap: 12px
+  margin-bottom: 12px
+
+.filter-field
+  display: flex
+  flex-direction: column
+  gap: 6px
+
+  label
+    color: var(--text-color)
+    font-size: 0.9rem
+
+  input[type="date"]
+    padding: 8px 10px
+    background-color: var(--surface-1)
+    border: 1px solid var(--border-color)
+    border-radius: 6px
+    color: var(--text-color)
+    cursor: pointer
+
+    // Estiliza o ícone do calendário (Chrome/Edge/Safari)
+    &::-webkit-calendar-picker-indicator
+      cursor: pointer
+      opacity: 1
+      filter: invert(86%) sepia(3%) saturate(0%) hue-rotate(180deg) brightness(98%) contrast(92%) // aproxima #e0e0e0
+      // Algumas engines respeitam 'color'
+      color: #e0e0e0
+
+.search-button
+  padding: 10px 16px
+  border: 1px solid var(--primary-color)
+  border-radius: 8px
+  background-color: var(--primary-color)
+  color: #fff
+  cursor: pointer
+  transition: all .2s ease
+  align-self: flex-end // garante alinhamento com a base dos inputs
+
+  &:hover
+    filter: brightness(1.1)
+
+.reset-button
+  padding: 10px 16px
+  border: 1px solid var(--border-color)
+  border-radius: 8px
+  background-color: var(--surface-1)
+  color: var(--text-color)
+  cursor: pointer
+  transition: all .2s ease
+  align-self: flex-end
+
+  &:hover
+    background-color: var(--surface-2)
+    border-color: var(--primary-color)

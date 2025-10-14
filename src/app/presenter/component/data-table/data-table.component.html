@@ -70,24 +70,24 @@
         <td [attr.colspan]="columnConfig?.length || 0">
           <div class="pagination-controls">
             <div class="pagination-info">
-              <span>Página {{ pageIndex() + 1 }} de {{ totalPages() || 1 }}</span>
+              <span>Page {{ pageIndex() + 1 }} of {{ totalPages() || 1 }}</span>
             </div>
             <div class="pagination-actions">
               <button class="pagination-button" 
                       (click)="prevPage()" 
                       [disabled]="pageIndex() === 0"
-                      aria-label="Página anterior">
-                Anterior
+                      aria-label="Previous page">
+                Previous
               </button>
               <button class="pagination-button" 
                       (click)="nextPage()" 
                       [disabled]="pageIndex() >= totalPages() - 1"
-                      aria-label="Próxima página">
-                Próximo
+                      aria-label="Next page">
+                Next
               </button>
             </div>
             <div class="page-size-selector">
-              <label for="pageSize">Itens por página:</label>
+              <label for="pageSize">Items per page:</label>
               <select id="pageSize" 
                       [ngModel]="pageSizeSignal()" 
                       (ngModelChange)="setPageSize($event)"
