@@ -42,7 +42,7 @@
       transition: background-color 0.2s
       
       &:hover
-        background-color: rgba(255, 255, 255, 0.05)
+        background-color: var(--table-row-hover)
       
       &.clickable
         cursor: pointer
@@ -127,14 +127,14 @@
   width: 100%
   padding: 6px 8px
   background-color: var(--surface-1)
-  border: 1px solid #e0e0e0
+  border: 1px solid var(--border)
   border-radius: 4px
   color: var(--text)
   
   &:focus
     outline: none
-    border-color: #e0e0e0
-    box-shadow: 0 0 0 1px #e0e0e0
+    border-color: var(--primary)
+    box-shadow: 0 0 0 1px var(--primary)
   
   &::placeholder
     color: var(--muted)

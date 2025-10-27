@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@infra/auth/auth.service';
+import { ThemeService } from '@infra/theme/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,9 @@ export class LoginComponent {
   password: string = '';
   error: string = '';
   showPassword: boolean = false;
+  
+  private readonly themeService = inject(ThemeService);
+  isDark = computed(() => this.themeService.theme() === 'dark');
 
   constructor(
     private authService: AuthService,
@@ -24,6 +28,10 @@ export class LoginComponent {
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle();
   }
 
   onSubmit(): void {

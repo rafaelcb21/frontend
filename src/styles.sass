@@ -1,29 +1,80 @@
-// Tema dark global via Sass indentado
-:root
+// Temas globais
+.dark-theme
   // Cores principais
   --primary-color: #4a6cf7
   --primary-color-dark: #3a5ce5
   --primary-color-rgb: 74, 108, 247
-  
+
   // Cores de fundo
   --bg-color: #121212
   --card-bg: #1e1e1e
   --sidebar-bg: #1a1a1a
   --topbar-bg: #1a1a1a
   --input-bg: #2c2c2c
-  
+
   // Cores de texto
   --text-color: #e0e0e0
   --text-secondary: #a0a0a0
   --sidebar-text: #e0e0e0
   --topbar-text: #e0e0e0
-  
+
   // Cores de interação
   --sidebar-hover: rgba(255, 255, 255, 0.1)
   --topbar-hover: rgba(255, 255, 255, 0.1)
   --border-color: #333333
   --disabled-color: #555555
   --error-color: #f44336
+
+  // Tokens extras usados na tabela e componentes
+  --bg: #121212
+  --surface-1: #1e1e1e
+  --surface-2: #2c2c2c
+  --border: #444
+  --text: #e0e0e0
+  --muted: #999
+  --primary: #4a6cf7
+  // Hover de linha nas tabelas (tema escuro)
+  --table-row-hover: rgba(255, 255, 255, 0.06)
+
+.light-theme
+  // Cores principais
+  --primary-color: #4a6cf7
+  --primary-color-dark: #3a5ce5
+  --primary-color-rgb: 74, 108, 247
+
+  // Cores de fundo
+  --bg-color: #f4f6fb
+  --card-bg: #ffffff
+  --sidebar-bg: #ffffff
+  --topbar-bg: #ffffff
+  --input-bg: #ffffff
+
+  // Cores de texto
+  --text-color: #1a1a1a
+  --text-secondary: #4f4f4f
+  --sidebar-text: #333333
+  --topbar-text: #333333
+
+  // Cores de interação
+  --sidebar-hover: rgba(0, 0, 0, 0.06)
+  --topbar-hover: rgba(0, 0, 0, 0.06)
+  // Borda com leve tom azulado para melhor contraste
+  --border-color: #d5def7
+  --disabled-color: #cccccc
+  --error-color: #d32f2f
+
+  // Tokens extras usados na tabela e componentes
+  --bg: #f4f6fb
+  --surface-1: #ffffff
+  // Superfície secundária com leve azul
+  --surface-2: #f0f4ff
+  // Token de borda alinhado ao novo tom
+  --border: #d5def7
+  --text: #1a1a1a
+  --muted: #666666
+  --primary: #4a6cf7
+  // Hover de linha nas tabelas (tema claro)
+  --table-row-hover: rgba(var(--primary-color-rgb), 0.10)
 
 // Reset e estilos base
 *

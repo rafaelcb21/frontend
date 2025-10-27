@@ -220,8 +220,11 @@ export class Truck {
     console.log(`Navegando para detalhes do truck ID: ${row.id}, Nome: ${row.name}`);
   }
 
-  // Classe condicional para destacar linhas com problemas de Predict
+  // Classe condicional para destacar linhas
   rowClass = (row: any) => ({
+    // Azul clarinho (hover) apenas quando todos Predict são 0
+    'safe-row': row.predictTurbocharger === 0 && row.predictBattery === 0 && row.predictAlternator === 0,
+    // Vermelho para alertas quando algum Predict é 1
     'alert-row': row.predictTurbocharger === 1 || row.predictBattery === 1 || row.predictAlternator === 1
   });
 

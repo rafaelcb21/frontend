@@ -10,3 +10,12 @@ h2
   border-radius: 8px
   padding: 1.5rem
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+
+// Regras específicas para hover na tabela de caminhões
+.truck-container .data-table tbody tr:hover
+  // Desativa o hover padrão em todas as linhas
+  background-color: transparent
+
+.truck-container .data-table tbody tr.safe-row:hover
+  // Ativa azul clarinho apenas quando todos os Predict são 0
+  background-color: var(--table-row-hover)

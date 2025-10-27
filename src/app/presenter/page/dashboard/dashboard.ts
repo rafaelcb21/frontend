@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, effect, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts/core';
@@ -9,6 +9,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { DataTableComponent } from '../../component/data-table/data-table.component';
 import { ColumnConfig } from '../../component/data-table/types';
 import * as L from 'leaflet';
+import { ThemeService } from '@infra/theme/theme.service';
 
 echarts.use([GaugeChart, LineChart, TooltipComponent, TitleComponent, GridComponent, LegendComponent, CanvasRenderer]);
 
@@ -24,11 +25,28 @@ export class Dashboard implements AfterViewInit {
   title = 'Dashboard';
   truckId: string | null = null;
   truckName: string | null = null;
-  // Paleta e estilos para tema dark
-  private readonly textColor = '#e0e0e0';
-  private readonly gridColor = '#444';
-  private readonly primary = '#4a6cf7';
-  private readonly accent = '#bb86fc';
+  // Paleta dinâmica (lida das variáveis CSS do tema)
+  private textColor = '#e0e0e0';
+  private gridColor = '#444';
+  private primary = '#4a6cf7';
+  private accent = '#4a6cf7';
+
+  // Gráficos
+  turboOilLine: any;
+  intakeAirLine: any;
+  boostGauge: any;
+  rpmGauge: any;
+  oilPressureGauge: any;
+  batteryAmperLine: any;
+  batteryVoltageGauge: any;
+  batterySocGauge: any;
+  batteryTempGauge: any;
+  batterySohGauge: any;
+  alternatorAmperLine: any;
+  alternatorVoltageGauge: any;
+  alternatorTempGauge: any;
+
+  private readonly themeService = inject(ThemeService);
 
   constructor(private route: ActivatedRoute, private router: Router) {
     const qp = this.route.snapshot.queryParamMap;
@@ -43,6 +61,17 @@ export class Dashboard implements AfterViewInit {
         ? `Dashboard — ${this.truckName} (#${this.truckId})`
         : `Dashboard — Caminhão #${this.truckId}`;
     }
+
+    // Inicializa paleta e gráficos conforme tema atual
+    this.updatePalette();
+    this.rebuildCharts();
+
+    // Reage à troca de tema
+    effect(() => {
+      this.themeService.theme();
+      this.updatePalette();
+      this.rebuildCharts();
+    });
   }
 
   // Leaflet map
@@ -80,24 +109,7 @@ export class Dashboard implements AfterViewInit {
     L.marker(this.defaultCoords, { icon: truckIcon }).addTo(this.map);
   }
 
-  // Turbocharger
-  turboOilLine = this.lineOptions('Oil', [70, 72, 71, 73, 75, 74, 76, 77, 78, 80, 79, 81], '°C');
-  intakeAirLine = this.lineOptions('Intake Air', [30, 32, 31, 33, 35, 34, 36, 37, 38, 40, 39, 41], '°C');
-  boostGauge = this.gaugeOptions('Boost Pressure', 'bar', 0, 3, 1.2);
-  rpmGauge = this.gaugeOptions('RPM', 'rpm', 0, 4000, 1800);
-  oilPressureGauge = this.gaugeOptions('Oil Pressure', 'psi', 0, 100, 45);
-
-  // Battery
-  batteryAmperLine = this.lineOptions('Amper', [10, 15, 12, 18, 20, 17, 16, 14, 19, 22, 21, 18], 'A');
-  batteryVoltageGauge = this.gaugeOptions('Voltage', 'V', 0, 16, 12.6);
-  batterySocGauge = this.gaugeOptions('SoC', '%', 0, 100, 82);
-  batteryTempGauge = this.gaugeOptions('Battery Temp', '°C', -20, 80, 32);
-  batterySohGauge = this.gaugeOptions('SoH', '%', 0, 100, 91);
-
-  // Alternator
-  alternatorAmperLine = this.lineOptions('Amper', [5, 7, 6, 8, 10, 9, 11, 10, 9, 8, 7, 6], 'A');
-  alternatorVoltageGauge = this.gaugeOptions('Voltage', 'V', 0, 16, 13.8);
-  alternatorTempGauge = this.gaugeOptions('Alternator Temp', '°C', -20, 120, 65);
+  // Dados de gráficos serão criados dinamicamente em rebuildCharts()
 
   // Helpers
   private lineOptions(label: string, data: number[], unit?: string) {
@@ -139,7 +151,7 @@ export class Dashboard implements AfterViewInit {
         symbolSize: 6,
         lineStyle: { color: this.primary, width: 2 },
         itemStyle: { color: this.accent },
-        areaStyle: { color: 'rgba(74,108,247,0.15)' },
+        areaStyle: { color: this.hexToRgba(this.primary, 0.15) },
         data
       }]
     };
@@ -191,6 +203,48 @@ export class Dashboard implements AfterViewInit {
         data: [{ value }]
       }]
     };
+  }
+
+  private updatePalette(): void {
+    const text = this.themeService.getCssVar('--text') || this.themeService.getCssVar('--text-color') || '#1a1a1a';
+    const border = this.themeService.getCssVar('--border') || this.themeService.getCssVar('--border-color') || '#e0e0e0';
+    const primary = this.themeService.getCssVar('--primary') || this.themeService.getCssVar('--primary-color') || '#4a6cf7';
+
+    this.textColor = text;
+    this.gridColor = border;
+    this.primary = primary;
+    this.accent = primary;
+  }
+
+  private rebuildCharts(): void {
+    // Turbocharger
+    this.turboOilLine = this.lineOptions('Oil', [70, 72, 71, 73, 75, 74, 76, 77, 78, 80, 79, 81], '°C');
+    this.intakeAirLine = this.lineOptions('Intake Air', [30, 32, 31, 33, 35, 34, 36, 37, 38, 40, 39, 41], '°C');
+    this.boostGauge = this.gaugeOptions('Boost Pressure', 'bar', 0, 3, 1.2);
+    this.rpmGauge = this.gaugeOptions('RPM', 'rpm', 0, 4000, 1800);
+    this.oilPressureGauge = this.gaugeOptions('Oil Pressure', 'psi', 0, 100, 45);
+
+    // Battery
+    this.batteryAmperLine = this.lineOptions('Amper', [10, 15, 12, 18, 20, 17, 16, 14, 19, 22, 21, 18], 'A');
+    this.batteryVoltageGauge = this.gaugeOptions('Voltage', 'V', 0, 16, 12.6);
+    this.batterySocGauge = this.gaugeOptions('SoC', '%', 0, 100, 82);
+    this.batteryTempGauge = this.gaugeOptions('Battery Temp', '°C', -20, 80, 32);
+    this.batterySohGauge = this.gaugeOptions('SoH', '%', 0, 100, 91);
+
+    // Alternator
+    this.alternatorAmperLine = this.lineOptions('Amper', [5, 7, 6, 8, 10, 9, 11, 10, 9, 8, 7, 6], 'A');
+    this.alternatorVoltageGauge = this.gaugeOptions('Voltage', 'V', 0, 16, 13.8);
+    this.alternatorTempGauge = this.gaugeOptions('Alternator Temp', '°C', -20, 120, 65);
+  }
+
+  private hexToRgba(hex: string, alpha: number): string {
+    const cleaned = hex.replace('#', '');
+    const full = cleaned.length === 3 ? cleaned.split('').map(c => c + c).join('') : cleaned;
+    const bigint = parseInt(full, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `rgba(${r},${g},${b},${alpha})`;
   }
 
   // DTC table data and columns
